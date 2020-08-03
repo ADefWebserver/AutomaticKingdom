@@ -1,2 +1,2 @@
-# [AutomaticKingdom.com](https:/AautomaticKingdom.com/)
+# [AutomaticKingdom.com](https://AutomaticKingdom.com/)
 Blazor Server Side Application
