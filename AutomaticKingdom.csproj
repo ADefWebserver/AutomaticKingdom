@@ -5,8 +5,8 @@
     <UserSecretsId>c8bf5997-a1c6-4d75-b7e4-35553591d31a</UserSecretsId>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Data\" />
-  </ItemGroup>
+	<ItemGroup>
+	  <PackageReference Include="IronBlock" Version="1.0.9" />
+	</ItemGroup>
 
 </Project>

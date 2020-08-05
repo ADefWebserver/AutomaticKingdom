@@ -31,6 +31,30 @@
         <a class="dismiss">🗙</a>
     </div>
 
+    <script>
+        var demoWorkspace;
+        window.BlocklyFunctions = {
+            createDemoWorkspace: function (blocklyDiv, toolbox, startBlocks) {
+                demoWorkspace = Blockly.inject(blocklyDiv,
+                    {
+                        media: 'media/',
+                        toolbox: toolbox
+                    });
+                Blockly.Xml.domToWorkspace(startBlocks,
+                    demoWorkspace);
+            },
+            getXML: function () {
+                var xml = Blockly.Xml.workspaceToDom(demoWorkspace);
+                var xml_text = Blockly.Xml.domToText(xml);
+                return xml_text;
+            }
+        };
+    </script>
+
+    <script src="javascript/blockly_compressed.js"></script>
+    <script src="javascript/blocks_compressed.js"></script>
+    <script src="javascript/msg/js/en.js"></script>
+
     <script src="_framework/blazor.server.js"></script>
 </body>
 </html>
