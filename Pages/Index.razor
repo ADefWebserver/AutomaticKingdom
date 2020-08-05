@@ -5,7 +5,7 @@
 @using System.Collections.Generic;
 @using System.IO;
 @using System.Linq;
-@using System.Reflection;
+@using AutomaticKingdom.Classes;
 @using IronBlock
 @using IronBlock.Blocks;
 @using Microsoft.CodeAnalysis;
@@ -114,7 +114,7 @@ Output:
     </category>
     <category name="Functions" custom="PROCEDURE" colour="%{BKY_PROCEDURES_HUE}">
     </category>
-    <category name="Animations">
+    <category name="Animations" colour="%{BKY_TEXTS_HUE}">
         <block type="automatickingdom_animationtest">
             <field name="ExecuteAnimation">Execute Animation</field>
             <field name="AnimationSelection">TPose</field>
@@ -124,52 +124,16 @@ Output:
 </xml>
 
 <xml xmlns="https://developers.google.com/blockly/xml" @ref="@startBlocks" style="display: none">
-    <variables>
-        <variable id="~kJbZ`y-lliSTC6sw2A6">n</variable>
-    </variables>
-    <block type="variables_set" id="set_n_initial" inline="true" x="20" y="20">
-        <field name="VAR" id="~kJbZ`y-lliSTC6sw2A6">n</field>
-        <value name="VALUE">
-            <block type="math_number" id="_kK+DXHB*8,OLm{4-jOe">
-                <field name="NUM">1</field>
+    <block type="text_print" id="dj{E8r2c7gwuOvQYIWG2" x="58" y="59">
+        <value name="TEXT">
+            <block type="text" id=";kpk[%.(D!Za+1(p=)h+">
+                <field name="TEXT">Hello World!</field>
             </block>
         </value>
         <next>
-            <block type="controls_repeat_ext" id="repeat" inline="true">
-                <value name="TIMES">
-                    <block type="math_number" id="K3^#nAy~lxtrhUl#2T{B">
-                        <field name="NUM">4</field>
-                    </block>
-                </value>
-                <statement name="DO">
-                    <block type="text_print" id="-KXHAx](KV-qmA[_}~uq">
-                        <value name="TEXT">
-                            <block type="variables_get" id="x`fF-ca~6ZmjAE1](tt)">
-                                <field name="VAR" id="~kJbZ`y-lliSTC6sw2A6">n</field>
-                            </block>
-                        </value>
-                        <next>
-                            <block type="variables_set" id="/]^d{RkBSg7196Fgeng|">
-                                <field name="VAR" id="~kJbZ`y-lliSTC6sw2A6">n</field>
-                                <value name="VALUE">
-                                    <block type="math_arithmetic" id="O`Yn9;s/8q^$T0R-BZA4">
-                                        <field name="OP">ADD</field>
-                                        <value name="A">
-                                            <block type="variables_get" id="~b9dR+EbL-mXJxcU*(`=">
-                                                <field name="VAR" id="~kJbZ`y-lliSTC6sw2A6">n</field>
-                                            </block>
-                                        </value>
-                                        <value name="B">
-                                            <block type="math_number" id="">
-                                                <field name="NUM">1</field>
-                                            </block>
-                                        </value>
-                                    </block>
-                                </value>
-                            </block>
-                        </next>
-                    </block>
-                </statement>
+            <block type="automatickingdom_animationtest" id="W#*}TpY-;2`X-O{ecz*K">
+                <field name="ExecuteAnimation">Execute Animation</field>
+                <field name="AnimationSelection">Running</field>
             </block>
         </next>
     </block>
@@ -234,7 +198,10 @@ Output:
 
         XMLText = await Interop.GetXML(JSRuntime);
 
-        var parser = new Parser().AddStandardBlocks().Parse(XMLText);
+        var parser = new Parser()
+            .AddStandardBlocks()
+            .AddBlock<AnimationTest>("automatickingdom_animationtest")
+            .Parse(XMLText);
 
         var syntaxTree = parser.Generate();
         string code = syntaxTree.NormalizeWhitespace().ToFullString();
@@ -247,17 +214,27 @@ Output:
     {
         this.Output = "";
 
-        var xml = await Interop.GetXML(JSRuntime);
-        var printBlock = new CustomPrintBlock();
+        try
+        {
+            var xml = await Interop.GetXML(JSRuntime);
 
-        new Parser()
-        .AddStandardBlocks()
-        .AddBlock("text_print", printBlock)
-        .Parse(xml)
-        .Evaluate();
+            // Custom Blocks
+            var printBlock = new CustomPrintBlock();
+            var animationTest = new AnimationTest();
 
-        this.Output = string.Join('\n', printBlock.Text);
+            new Parser()
+                .AddStandardBlocks()
+                .AddBlock("text_print", printBlock)
+                .AddBlock("automatickingdom_animationtest", animationTest)
+                .Parse(xml)
+                .Evaluate();
 
+            this.Output = string.Join('\n', printBlock.Text);
+        }
+        catch (Exception ex)
+        {
+            this.Output = ex.Message;
+        }
     }
 
     // Utility
