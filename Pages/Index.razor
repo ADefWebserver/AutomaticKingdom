@@ -74,6 +74,7 @@ Output:
     </div>
 }
 
+<!-- TOOLBOX -->
 <xml xmlns="https://developers.google.com/blockly/xml" @ref="@toolbox" style="display: none">
     <category name="Logic" colour="%{BKY_LOGIC_HUE}">
         <block type="controls_if"></block>
@@ -118,67 +119,76 @@ Output:
     <sep></sep>
 </xml>
 
+<!-- STARTING BLOCKS -->
 <xml xmlns="https://developers.google.com/blockly/xml" @ref="@startBlocks" style="display: none">
     <variables>
-        <variable id="$b2q[SRKz-JvRGxyP%Cq">iteration</variable>
+        <variable id="`w[+P9?y!l7i@HJ,Bo(O">Animation</variable>
+        <variable id="i{um2n^fiRJ,hZECOiq6">Iterations</variable>
     </variables>
-    <block type="text_print" id="dj{E8r2c7gwuOvQYIWG2" x="45" y="23">
-        <value name="TEXT">
-            <block type="text" id=";kpk[%.(D!Za+1(p=)h+">
-                <field name="TEXT">Hello World!</field>
+    <block type="procedures_callnoreturn" id="7R.|fIN`F.p)O82}em/i" x="53" y="27">
+        <mutation name="AnimationLoop">
+            <arg name="Animation"></arg>
+            <arg name="Iterations"></arg>
+        </mutation>
+        <value name="ARG0">
+            <block type="text" id="$l$g_$lCqSMw^W(xFQ#A">
+                <field name="TEXT">Running</field>
             </block>
         </value>
-        <next>
-            <block type="variables_set" id="=i/935_90X-6}+J{(4|1">
-                <field name="VAR" id="$b2q[SRKz-JvRGxyP%Cq">iteration</field>
-                <value name="VALUE">
-                    <block type="math_number" id="i[`z$wRIOu4{{G0;b3Y_">
-                        <field name="NUM">1</field>
+        <value name="ARG1">
+            <block type="math_number" id="1H?!#[ih]b@4w;gezSF}">
+                <field name="NUM">2</field>
+            </block>
+        </value>
+    </block>
+    <block type="procedures_defnoreturn" id="6G2xozHSpNx,H[1,b#Mb" x="50" y="130">
+        <mutation>
+            <arg name="Animation" varid="`w[+P9?y!l7i@HJ,Bo(O"></arg>
+            <arg name="Iterations" varid="i{um2n^fiRJ,hZECOiq6"></arg>
+        </mutation>
+        <field name="NAME">AnimationLoop</field>
+        <comment pinned="false" h="80" w="160">Describe this function...</comment>
+        <statement name="STACK">
+            <block type="controls_repeat_ext" id="NHaya^z2Ut~-5{B;*DNx">
+                <value name="TIMES">
+                    <block type="variables_get" id="JSGg7`Y7-05LBNf(@@c4^">
+                        <field name="VAR" id="i{um2n^fiRJ,hZECOiq6">Iterations</field>
                     </block>
                 </value>
-                <next>
-                    <block type="controls_repeat_ext" id="NHaya^z2Ut~-5{B;*DNx">
-                        <value name="TIMES">
-                            <block type="math_number" id="`MHMV;NS#;Ch4|9~77^Q">
-                                <field name="NUM">5</field>
-                            </block>
-                        </value>
-                        <statement name="DO">
-                            <block type="controls_if" id="t.?mw!bbCm%)KYa[`[P?">
-                                <mutation else="1"></mutation>
-                                <value name="IF0">
-                                    <block type="logic_compare" id="A,=}KrPF9xCqCoDM(pyg">
-                                        <field name="OP">EQ</field>
-                                        <value name="A">
-                                            <block type="variables_get" id="t[-TIor[J,lWlty+z^S*">
-                                                <field name="VAR" id="$b2q[SRKz-JvRGxyP%Cq">iteration</field>
-                                            </block>
-                                        </value>
-                                        <value name="B">
-                                            <block type="math_number" id="8xpXQUG!^YY;=IANW#.4">
-                                                <field name="NUM">2</field>
-                                            </block>
-                                        </value>
+                <statement name="DO">
+                    <block type="controls_if" id="t.?mw!bbCm%)KYa[`[P?">
+                        <mutation else="1"></mutation>
+                        <value name="IF0">
+                            <block type="logic_compare" id="A,=}KrPF9xCqCoDM(pyg">
+                                <field name="OP">EQ</field>
+                                <value name="A">
+                                    <block type="variables_get" id="`8)Cz:fd@9,@@?7u%4!gB">
+                                        <field name="VAR" id="`w[+P9?y!l7i@HJ,Bo(O">Animation</field>
                                     </block>
                                 </value>
-                                <statement name="DO0">
-                                    <block type="automatickingdom_executeanimation" id="W#*}TpY-;2`X-O{ecz*K">
-                                        <field name="ExecuteAnimation">Execute Animation</field>
-                                        <field name="AnimationSelection">Running</field>
+                                <value name="B">
+                                    <block type="text" id="B:4}#VuuWlV%H;Bwtxt1">
+                                        <field name="TEXT">Running</field>
                                     </block>
-                                </statement>
-                                <statement name="ELSE">
-                                    <block type="automatickingdom_executeanimation" id="Et!rc/;E59X$MI-(Zr_T">
-                                        <field name="ExecuteAnimation">Execute Animation</field>
-                                        <field name="AnimationSelection">Idle</field>
-                                    </block>
-                                </statement>
+                                </value>
+                            </block>
+                        </value>
+                        <statement name="DO0">
+                            <block type="automatickingdom_executeanimation" id="W#*}TpY-;2`X-O{ecz*K">
+                                <field name="ExecuteAnimation">Execute Animation</field>
+                                <field name="AnimationSelection">Running</field>
+                            </block>
+                        </statement>
+                        <statement name="ELSE">
+                            <block type="automatickingdom_executeanimation" id="Et!rc/;E59X$MI-(Zr_T">
+                                <field name="ExecuteAnimation">Execute Animation</field>
+                                <field name="AnimationSelection">Idle</field>
                             </block>
                         </statement>
                     </block>
-                </next>
+                </statement>
             </block>
-        </next>
+        </statement>
     </block>
 </xml>
 
