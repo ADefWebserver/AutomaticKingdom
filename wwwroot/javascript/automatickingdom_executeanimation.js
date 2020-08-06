@@ -1,4 +1,4 @@
-﻿Blockly.Blocks['automatickingdom_animationtest'] = {
+﻿Blockly.Blocks['automatickingdom_executeanimation'] = {
     init: function () {
         this.appendDummyInput()
             .appendField(new Blockly.FieldLabelSerializable("Execute Animation"), "ExecuteAnimation")

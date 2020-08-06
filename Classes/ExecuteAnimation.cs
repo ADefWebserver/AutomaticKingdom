@@ -10,28 +10,34 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace AutomaticKingdom.Classes
 {
-    public class AnimationTest : IBlock
+    public class ExecuteAnimation : IBlock
     {
         public List<string> Text { get; set; } = new List<string>();
         public override object Evaluate(Context context)
         {
-            // read a field
+            // Read field
             var AnimationSelection = this.Fields.Get("AnimationSelection");
 
-            //Console.WriteLine(AnimationSelection);
+            Console.WriteLine($"ExecuteAnimation({AnimationSelection})");
 
-            //return base.Evaluate(context);
-            return AnimationSelection;
+            return base.Evaluate(context);
         }
 
         public override SyntaxNode Generate(Context context)
         {
-            var text = this.Fields.Get("AnimationSelection");
+            var AnimationSelection = this.Fields.Get("AnimationSelection");
 
-            return LiteralExpression(
+            SyntaxNode syntaxNode = LiteralExpression(
                     SyntaxKind.StringLiteralExpression,
-                        Literal($"Animation = {text}")
+                        Literal($"ExecuteAnimation({AnimationSelection})")
                     );
+
+            var expression = syntaxNode as ExpressionSyntax;
+
+            var invocationExpression =
+                SyntaxGenerator.MethodInvokeExpression(IdentifierName(nameof(Console)), nameof(Console.WriteLine), expression);
+
+            return Statement(invocationExpression, base.Generate(context), context);
         }
     }
 }
