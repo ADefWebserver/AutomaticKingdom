@@ -77,29 +77,33 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <div>
-                        <select class="form-control"
-                                @bind="@WorldObject">
-                            @foreach (var option in WorldObjectOptions)
-                            {
-                                <option value="@option">
-                                    @option
-                                </option>
-                            }
-                        </select>
-                    </div><br />
                     @if (!ExecutingCode)
                     {
+                        <div>
+                            <select class="form-control"
+                                    @bind="@WorldObject">
+                                @foreach (var option in WorldObjectOptions)
+                                {
+                                    <option value="@option">
+                                        @option
+                                    </option>
+                                }
+                            </select>
+                        </div><br />
                         <button class="btn btn-primary" @onclick="ExecuteCode">
                             Execute Code
                         </button>
                     }
-                    <!-- Button to close the popup -->
-                    <button type="button" class="close"
-                            @onclick="ClosePopup">
-                        <span aria-hidden="true">X</span>
-                    </button>
-                </div>
+                    else
+                    {
+                        <img src="media/waiting.gif" width="200" height="50" />
+                    }
+                                <!-- Button to close the popup -->
+                                <button type="button" class="close"
+                                        @onclick="ClosePopup">
+                                    <span aria-hidden="true">X</span>
+                                </button>
+                            </div>
                 <div class="modal-body">
                     <textarea disabled="disabled" style="display: inline-block; height: 480px; width: 100%;">@Output</textarea>
                 </div>
