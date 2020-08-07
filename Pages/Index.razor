@@ -228,12 +228,12 @@
 <!-- STARTING BLOCKS -->
 <xml xmlns="https://developers.google.com/blockly/xml" @ref="@startBlocks" style="display: none">
     <variables>
-        <variable id="`Qg%mLC,sg)q/F1FFqSq">WoldObject</variable>
+        <variable id="`Qg%mLC,sg)q/F1FFqSq">WorldObject</variable>
         <variable id="jm_J$=$^MWQpQ}g({.:Q">AnimationLoopResult</variable>
     </variables>
     <block type="procedures_defreturn" id="$ZHyQf!/IS@n%h[!^e|W" x="227" y="50">
         <mutation>
-            <arg name="WoldObject" varid="`Qg%mLC,sg)q/F1FFqSq"></arg>
+            <arg name="WorldObject" varid="`Qg%mLC,sg)q/F1FFqSq"></arg>
         </mutation>
         <field name="NAME">AnimationLoop</field>
         <comment pinned="false" h="80" w="160">Describe this function...</comment>
@@ -252,7 +252,7 @@
                                 <field name="OP">EQ</field>
                                 <value name="A">
                                     <block type="variables_get" id="kdN5e=8;2;,xu$;l?FR$">
-                                        <field name="VAR" id="`Qg%mLC,sg)q/F1FFqSq">WoldObject</field>
+                                        <field name="VAR" id="`Qg%mLC,sg)q/F1FFqSq">WorldObject</field>
                                     </block>
                                 </value>
                                 <value name="B">
@@ -267,7 +267,7 @@
                                 <field name="VAR" id="jm_J$=$^MWQpQ}g({.:Q">AnimationLoopResult</field>
                                 <value name="VALUE">
                                     <block type="text" id="~y?-~4H5o^S,aA`[*m?S">
-                                        <field name="TEXT">Defend</field>
+                                        <field name="TEXT">Run</field>
                                     </block>
                                 </value>
                             </block>
@@ -279,7 +279,7 @@
                                         <field name="OP">EQ</field>
                                         <value name="A">
                                             <block type="variables_get" id="cvKy4[wvkOWC!z^j7|!m">
-                                                <field name="VAR" id="`Qg%mLC,sg)q/F1FFqSq">WoldObject</field>
+                                                <field name="VAR" id="`Qg%mLC,sg)q/F1FFqSq">WorldObject</field>
                                             </block>
                                         </value>
                                         <value name="B">
@@ -481,7 +481,7 @@
         FinalCode = StartingCode + FinalCode;
 
         // Make AnimationLoop Public
-        FinalCode = FinalCode.Replace("dynamic AnimationLoop(dynamic WoldObject)", "public dynamic AnimationLoop(dynamic WoldObject)");
+        FinalCode = FinalCode.Replace("dynamic AnimationLoop(dynamic WorldObject)", "public dynamic AnimationLoop(dynamic WorldObject)");
 
         return FinalCode;
     }
