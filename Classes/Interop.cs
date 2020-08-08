@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace AutomaticKingdom
 {
-    public static class Interop
+    public static class AutomaticKingdomInterop
     {
         internal static ValueTask<object> DemoWorkspace(
             IJSRuntime jsRuntime,

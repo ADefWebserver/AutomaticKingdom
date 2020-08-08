@@ -347,7 +347,7 @@
     {
         if (firstRender)
         {
-            await Interop.DemoWorkspace(
+            await AutomaticKingdomInterop.DemoWorkspace(
                 JSRuntime,
                 blocklyDiv,
                 toolbox,
@@ -369,7 +369,7 @@
         ViewXML = true;
         ViewCode = false;
         ViewRunCode = false;
-        XMLText = await Interop.GetXML(JSRuntime);
+        XMLText = await AutomaticKingdomInterop.GetXML(JSRuntime);
     }
 
     private async Task GetCode()
@@ -381,7 +381,7 @@
 
         try
         {
-            XMLText = await Interop.GetXML(JSRuntime);
+            XMLText = await AutomaticKingdomInterop.GetXML(JSRuntime);
 
             var parser = new Parser()
                 .AddStandardBlocks()
@@ -409,8 +409,8 @@
 
         try
         {
-            XMLText = await Interop.GetXML(JSRuntime);
-            var xml = await Interop.GetXML(JSRuntime);
+            XMLText = await AutomaticKingdomInterop.GetXML(JSRuntime);
+            var xml = await AutomaticKingdomInterop.GetXML(JSRuntime);
 
             var parser = new Parser()
                 .AddStandardBlocks()

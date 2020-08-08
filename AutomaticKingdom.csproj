@@ -5,9 +5,31 @@
     <UserSecretsId>c8bf5997-a1c6-4d75-b7e4-35553591d31a</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="EventHorizon.Blazor.BabylonJS.WASM\**" />
+    <Compile Remove="EventHorizon.Blazor.BabylonJS\**" />
+    <Content Remove="EventHorizon.Blazor.BabylonJS.WASM\**" />
+    <Content Remove="EventHorizon.Blazor.BabylonJS\**" />
+    <EmbeddedResource Remove="EventHorizon.Blazor.BabylonJS.WASM\**" />
+    <EmbeddedResource Remove="EventHorizon.Blazor.BabylonJS\**" />
+    <None Remove="EventHorizon.Blazor.BabylonJS.WASM\**" />
+    <None Remove="EventHorizon.Blazor.BabylonJS\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\assets\Animation.gltf" />
+    <None Include="wwwroot\assets\House.gltf" />
+    <None Include="wwwroot\assets\Player.glb" />
+  </ItemGroup>
+
 	<ItemGroup>
 	  <PackageReference Include="CS-Script.Core" Version="1.4.0" />
 	  <PackageReference Include="IronBlock" Version="1.0.9" />
+	  <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="3.2.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="EventHorizon.Blazor.BabylonJS.WASM\EventHorizon.Blazor.BabylonJS.WASM.csproj" />
 	</ItemGroup>
 
 </Project>
