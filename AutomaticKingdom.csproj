@@ -16,10 +16,6 @@
     <None Remove="EventHorizon.Blazor.BabylonJS\**" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Include="wwwroot\assets\Player.glb" />
-  </ItemGroup>
-
 	<ItemGroup>
 	  <PackageReference Include="CS-Script.Core" Version="1.4.0" />
 	  <PackageReference Include="IronBlock" Version="1.0.9" />
@@ -27,6 +23,11 @@
 
 	<ItemGroup>
 	  <Folder Include="Model\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="wwwroot\js\blazor_babylon.js" />
+	  <None Include="wwwroot\lib\babylon-scene\babylonscene.nobabylon.js" />
 	</ItemGroup>
 
 </Project>

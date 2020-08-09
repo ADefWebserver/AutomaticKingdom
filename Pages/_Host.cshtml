@@ -14,6 +14,27 @@
     <base href="~/" />
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
     <link href="css/site.css" rel="stylesheet" />
+
+    <!-- Babylon.js -->
+    <script src="https://cdn.babylonjs.com/babylon.js"></script>
+    <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
+    <script src="~/lib/babylon-scene/babylonscene.nobabylon.js"></script>
+    <style>
+        html, body {
+            width: 100vw;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        app {
+            touch-action: none;
+        }
+
+        babylon-scene {
+            width: 50%;
+        }
+    </style>
 </head>
 <body>
     <app>
@@ -57,5 +78,6 @@
     <script src="javascript/msg/js/en.js"></script>
 
     <script src="_framework/blazor.server.js"></script>
+    <script src="~/js/blazor_babylon.js"></script>
 </body>
 </html>
