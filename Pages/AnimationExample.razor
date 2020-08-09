@@ -7,11 +7,21 @@
     <LoadMeshButton ElementID="babylon5" FileName="dummy3.babylon.json" MeshName="YBot" />
     <RemoveMeshButton ElementID="babylon5" MeshName="YBot" />
 </BabylonCanvas>
-<pre><code>@($@"<BabylonCanvas PrepareStage=""prepareStage"" PrepareScene=""prepareScene"" Context=""ID"">
- <AnimationButton ElementID=""@ID"" Animation=""Idle"" />
- <AnimationButton ElementID=""@ID"" Animation=""Walk"" />
- <AnimationButton ElementID=""@ID"" Animation=""Run"" />
- <LoadMeshButton ElementID=""babylon5"" FileName=""dummy3.babylon.json"" MeshName=""YBot"" />
- <RemoveMeshButton ElementID=""@ID"" MeshName=""YBot"" />
-</BabylonCanvas>
-")</code></pre>
+
+@code {
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            string MethodName = "loadMesh";
+            string ElementID = "babylon5";
+            string FileName = "dummy3.babylon.json";
+            string MeshName = "YBot";
+
+            string ClickAction = $"{MethodName}('{ElementID}','{FileName}','{MeshName}')";
+
+            // Need to call the JavaScript loadMesh method here
+        }
+    }
+}
