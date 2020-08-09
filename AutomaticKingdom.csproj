@@ -17,19 +17,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\assets\Animation.gltf" />
-    <None Include="wwwroot\assets\House.gltf" />
     <None Include="wwwroot\assets\Player.glb" />
   </ItemGroup>
 
 	<ItemGroup>
 	  <PackageReference Include="CS-Script.Core" Version="1.4.0" />
 	  <PackageReference Include="IronBlock" Version="1.0.9" />
-	  <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="5.0.0-preview.7.20365.19" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="EventHorizon.Blazor.BabylonJS.WASM\EventHorizon.Blazor.BabylonJS.WASM.csproj" />
+	  <Folder Include="Model\" />
 	</ItemGroup>
 
 </Project>
