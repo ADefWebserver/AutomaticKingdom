@@ -1,3 +1,3 @@
 # [AutomaticKingdom.com](https://AutomaticKingdom.com/)
 Blazor Server Side Application
-![AutomaticKingdomConcept](https://user-images.githubusercontent.com/1857799/89299884-341d8680-d61c-11ea-856b-14945181240a.png)
+![AutomaticKingdomAnimation](https://user-images.githubusercontent.com/1857799/89788471-134da900-dad4-11ea-8a56-347ee69bc6ac.gif)
