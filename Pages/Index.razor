@@ -105,7 +105,8 @@
                                 </button>
                             </div>
                 <div class="modal-body">
-                    <textarea disabled="disabled" style="display: inline-block; height: 480px; width: 100%;">@Output</textarea>
+                    <p>Response: @Output</p>
+                    <Avatar></Avatar>
                 </div>
             </div>
         </div>
@@ -424,8 +425,15 @@
             dynamic CsScript = CSScript.Evaluator.LoadCode(ConvertScript(code));
 
             var result = CsScript.AnimationLoop(WorldObject);
-            
+
             this.Output = result;
+
+            await AutomaticKingdomInterop.SetAnimation(
+                JSRuntime,
+                "babylon5",
+                result,
+                "1.0M"
+                );
         }
         catch (Exception ex)
         {

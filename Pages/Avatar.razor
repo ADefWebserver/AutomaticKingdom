@@ -1,12 +1,7 @@
-﻿@page "/animation"
-@inject IJSRuntime JSRuntime
+﻿@inject IJSRuntime JSRuntime
 
-<h3>Declarative Babylon</h3>
-<BabylonCanvas ID="babylon5" PrepareStage="prepareStage" PrepareScene="prepareScene" style="width: 80%;height: 500px;">
-    <AnimationButton ElementID="babylon5" Animation="Idle" />
-    <AnimationButton ElementID="babylon5" Animation="Walk" />
-    <AnimationButton ElementID="babylon5" Animation="Run" />
-</BabylonCanvas>
+<BabylonAvatar ID="babylon5" PrepareStage="prepareStage" PrepareScene="prepareScene" style="width: 80%;height: 500px;">
+</BabylonAvatar>
 
 @code {
 
