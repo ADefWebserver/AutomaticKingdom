@@ -8,21 +8,21 @@
   <ItemGroup>
     <Compile Remove="EventHorizon.Blazor.BabylonJS.WASM\**" />
     <Compile Remove="EventHorizon.Blazor.BabylonJS\**" />
+    <Compile Remove="Model\**" />
     <Content Remove="EventHorizon.Blazor.BabylonJS.WASM\**" />
     <Content Remove="EventHorizon.Blazor.BabylonJS\**" />
+    <Content Remove="Model\**" />
     <EmbeddedResource Remove="EventHorizon.Blazor.BabylonJS.WASM\**" />
     <EmbeddedResource Remove="EventHorizon.Blazor.BabylonJS\**" />
+    <EmbeddedResource Remove="Model\**" />
     <None Remove="EventHorizon.Blazor.BabylonJS.WASM\**" />
     <None Remove="EventHorizon.Blazor.BabylonJS\**" />
+    <None Remove="Model\**" />
   </ItemGroup>
 
 	<ItemGroup>
 	  <PackageReference Include="CS-Script.Core" Version="1.4.0" />
 	  <PackageReference Include="IronBlock" Version="1.0.9" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Model\" />
 	</ItemGroup>
 
 	<ItemGroup>
