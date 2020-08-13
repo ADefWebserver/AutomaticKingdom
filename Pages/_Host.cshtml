@@ -16,25 +16,20 @@
     <link href="css/site.css" rel="stylesheet" />
 
     <!-- Babylon.js -->
-    <script src="https://cdn.babylonjs.com/babylon.js"></script>
-    <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
-    <script src="~/lib/babylon-scene/babylonscene.nobabylon.js"></script>
-    <style>
-        html, body {
-            width: 100vw;
-            height: 100vh;
-            margin: 0;
-            padding: 0;
-        }
-
-        app {
-            touch-action: none;
-        }
-
-        babylon-scene {
-            width: 50%;
-        }
-    </style>
+    <script src="https://code.jquery.com/pep/0.4.2/pep.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.6.2/dat.gui.min.js"></script>
+    <script src="https://preview.babylonjs.com/ammo.js"></script>
+    <script src="https://preview.babylonjs.com/cannon.js"></script>
+    <script src="https://preview.babylonjs.com/Oimo.js"></script>
+    <script src="https://preview.babylonjs.com/libktx.js"></script>
+    <script src="https://preview.babylonjs.com/earcut.min.js"></script>
+    <script src="https://preview.babylonjs.com/babylon.js"></script>
+    <script src="https://preview.babylonjs.com/materialsLibrary/babylonjs.materials.min.js"></script>
+    <script src="https://preview.babylonjs.com/proceduralTexturesLibrary/babylonjs.proceduralTextures.min.js"></script>
+    <script src="https://preview.babylonjs.com/postProcessesLibrary/babylonjs.postProcess.min.js"></script>
+    <script src="https://preview.babylonjs.com/loaders/babylonjs.loaders.js"></script>
+    <script src="https://preview.babylonjs.com/serializers/babylonjs.serializers.min.js"></script>
+    <script src="https://preview.babylonjs.com/gui/babylon.gui.min.js"></script>
 </head>
 <body>
     <app>
@@ -68,71 +63,7 @@
                 var xml = Blockly.Xml.workspaceToDom(demoWorkspace);
                 var xml_text = Blockly.Xml.domToText(xml);
                 return xml_text;
-            },
-            loadMesh: function (id, file, name, mainColor) {
-            const stages = window.stages;
-            if (!stages) return;
-            const stage = stages[id];
-
-            const scene = stage.detail.scene;
-            const Babylon = stage.detail.babylon;
-            const lights = stage.detail.lights;
-            const engine = stage.detail.engine;
-
-            Babylon.SceneLoader.ImportMesh("", "./scenes/", file, scene, function (newMeshes, particleSystems, skeletons) {
-                var skeleton = skeletons[0];
-                // Shadows
-                var shadowGenerator = new Babylon.ShadowGenerator(1024, lights[1]);
-                shadowGenerator.useBlurExponentialShadowMap = true;
-                shadowGenerator.blurKernel = 32;
-                shadowGenerator.addShadowCaster(scene.meshes[0], true);
-                for (var index = 0; index < newMeshes.length; index++) {
-                    newMeshes[index].receiveShadows = false;
-                    ;
-                }
-                var helper = scene.createDefaultEnvironment({
-                    enableGroundShadow: true
-                });
-                helper.setMainColor(mainColor ?? Babylon.Color3.Gray());
-                helper.ground.position.y += 0.01;
-                var idleRange = skeleton.getAnimationRange(`${name}_Idle`);
-                var walkRange = skeleton.getAnimationRange(`${name}_Walk`);
-                var runRange = skeleton.getAnimationRange(`${name}_Run`);
-                thisAnim = scene.beginWeightedAnimation(skeleton, idleRange.from, idleRange.to, 1.0, true);
-                walkAnim = scene.beginWeightedAnimation(skeleton, walkRange.from, walkRange.to, 0, true);
-                runAnim = scene.beginWeightedAnimation(skeleton, runRange.from, runRange.to, 0, true);
-
-                var params = [
-                    { name: "Idle", anim: thisAnim },
-                    { name: "Walk", anim: walkAnim },
-                    { name: "Run", anim: runAnim }
-                ];
-
-                window.anims = window.anims || [];
-                window.anims[id] = params;
-
-                engine.hideLoadingUI();
-
-            }, function (evt) {
-            });
-            },
-            setAnimation: function (id, name, weight) {
-            const anims = window.anims[id];
-            var thisAnim;
-            anims.forEach((anim) => {
-                switch (anim.name) {
-                    case name:
-                        thisAnim = anim.anim;
-                        thisAnim.weight = weight;
-                        thisAnim.syncWith(null);
-                        break;
-                    default:
-                        otherAnim = anim.anim;
-                        otherAnim.syncWith(thisAnim);
-                        otherAnim.weight = 0.0;
-                }
-            });
-        }
+            }
         };
     </script>
 
@@ -142,6 +73,6 @@
     <script src="javascript/msg/js/en.js"></script>
 
     <script src="_framework/blazor.server.js"></script>
-    <script src="~/js/blazor_babylon.js"></script>
+    <script src="_content/EventHorizon.Blazor.Server.Interop/server-interop-bridge.js"></script>
 </body>
 </html>

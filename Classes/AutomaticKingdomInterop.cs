@@ -26,33 +26,5 @@ namespace AutomaticKingdom
             return jsRuntime.InvokeAsync<string>(
                 "BlocklyFunctions.getXML");
         }
-
-        // BabylonJs
-
-        internal static ValueTask<string> LoadMesh(
-            IJSRuntime jsRuntime,
-            string ElementID,
-            string FileName,
-            string MeshName)
-        {
-            return jsRuntime.InvokeAsync<string>(
-                "loadMesh",
-                ElementID,
-                FileName,
-                MeshName);
-        }
-
-        internal static ValueTask<string> SetAnimation(
-            IJSRuntime jsRuntime,
-            string ElementID,
-            string Animation,
-            string Weight)
-        {
-            return jsRuntime.InvokeAsync<string>(
-                "setAnimation",
-                ElementID,
-                Animation,
-                Weight);
-        }
     }
 }

@@ -1,29 +1,7 @@
-﻿@page "/animation"
-@inject IJSRuntime JSRuntime
+@page "/animation"
 
-<h3>Declarative Babylon</h3>
-<BabylonCanvas ID="babylon5" PrepareStage="prepareStage" PrepareScene="prepareScene" style="width: 80%;height: 500px;">
-    <AnimationButton ElementID="babylon5" Animation="Idle" />
-    <AnimationButton ElementID="babylon5" Animation="Walk" />
-    <AnimationButton ElementID="babylon5" Animation="Run" />
-</BabylonCanvas>
+<h1>Generated with Animations!</h1>
 
-@code {
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            string ElementID = "babylon5";
-            string FileName = "dummy3.babylon.json";
-            string MeshName = "YBot";
-
-            await AutomaticKingdomInterop.LoadMesh(
-                JSRuntime,
-                ElementID,
-                FileName,
-                MeshName
-                );
-        }
-    }
-}
+<div>
+    <canvas id="game-window" style="width:100%"></canvas>
+</div>

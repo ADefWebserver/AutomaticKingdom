@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -44,6 +45,16 @@ namespace AutomaticKingdom
             }
 
             app.UseHttpsRedirection();
+
+            var provider = new FileExtensionContentTypeProvider();
+            // Add new mappings
+            provider.Mappings[".fx"] = "application/fx";
+            provider.Mappings[".gltf"] = "model/vnd.gltf+json";
+            provider.Mappings[".glb"] = "application/octet-stream";
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                ContentTypeProvider = provider
+            });
             app.UseStaticFiles();
 
             app.UseRouting();
