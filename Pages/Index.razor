@@ -3,8 +3,9 @@
 @using System.Threading.Tasks
 @using Microsoft.JSInterop
 @using System.Collections.Generic;
-@using System.IO;
 @using System.Linq;
+@using BabylonJS;
+@using BabylonJS.GUI;
 @using AutomaticKingdom.Classes;
 @using IronBlock
 @using IronBlock.Blocks;
@@ -12,6 +13,7 @@
 @using Microsoft.CodeAnalysis.CSharp.Scripting;
 @using Microsoft.CodeAnalysis.Scripting;
 @using CSScriptLib;
+@implements IDisposable
 @inject IJSRuntime JSRuntime
 
 <h1>AutomaticKingdom.com</h1>
@@ -90,7 +92,7 @@
                                 }
                             </select>
                         </div><br />
-                        <button class="btn btn-primary" @onclick="ExecuteCode">
+                        <button style="border-left:2px none" class="btn btn-primary" @onclick="ExecuteCode">
                             Execute Code
                         </button>
                     }
@@ -98,15 +100,15 @@
                     {
                         <img src="media/waiting.gif" width="200" height="50" />
                     }
-                                <!-- Button to close the popup -->
-                                <button type="button" class="close"
-                                        @onclick="ClosePopup">
-                                    <span aria-hidden="true">X</span>
-                                </button>
-                            </div>
+                    <!-- Button to close the popup -->
+                    <button type="button" class="close"
+                            @onclick="ClosePopup">
+                        <span aria-hidden="true">X</span>
+                    </button>
+                </div>
                 <div class="modal-body">
                     <p>Response: @Output</p>
-
+                    <Avatar @ref="Player"></Avatar>
                 </div>
             </div>
         </div>
@@ -232,7 +234,7 @@
         <variable id="`Qg%mLC,sg)q/F1FFqSq">WorldObject</variable>
         <variable id="jm_J$=$^MWQpQ}g({.:Q">AnimationLoopResult</variable>
     </variables>
-    <block type="procedures_defreturn" id="$ZHyQf!/IS@n%h[!^e|W" x="227" y="50">
+    <block type="procedures_defreturn" id="$ZHyQf!/IS@n%h[!^e|W" x="54" y="31">
         <mutation>
             <arg name="WorldObject" varid="`Qg%mLC,sg)q/F1FFqSq"></arg>
         </mutation>
@@ -268,7 +270,7 @@
                                 <field name="VAR" id="jm_J$=$^MWQpQ}g({.:Q">AnimationLoopResult</field>
                                 <value name="VALUE">
                                     <block type="text" id="~y?-~4H5o^S,aA`[*m?S">
-                                        <field name="TEXT">Run</field>
+                                        <field name="TEXT">Attack</field>
                                     </block>
                                 </value>
                             </block>
@@ -295,7 +297,7 @@
                                         <field name="VAR" id="jm_J$=$^MWQpQ}g({.:Q">AnimationLoopResult</field>
                                         <value name="VALUE">
                                             <block type="text" id="}@@R`xW[dK*2lKg4bpX6K">
-                                                <field name="TEXT">Walk</field>
+                                                <field name="TEXT">Walking</field>
                                             </block>
                                         </value>
                                     </block>
@@ -315,6 +317,10 @@
 </xml>
 
 @code {
+    Avatar Player;
+    private IDictionary<string, AnimationGroup> _animationMap = new Dictionary<string, AnimationGroup>();
+    private AnimationGroup _runningAnimation = null;
+    private Engine _engine;
 
     internal class CustomPrintBlock : IBlock
     {
@@ -428,12 +434,7 @@
 
             this.Output = result;
 
-            //await AutomaticKingdomInterop.SetAnimation(
-            //    JSRuntime,
-            //    "babylon5",
-            //    result,
-            //    "1.0"
-            //    );
+            await Player.RunAnimation(result);
         }
         catch (Exception ex)
         {
@@ -456,8 +457,7 @@
 
     // Utility
 
-    public static Script<object>
-        GenerateScript(string code)
+    public static Script<object> GenerateScript(string code)
     {
         var dynamicRuntimeReference = MetadataReference.CreateFromFile(typeof(System.Runtime.CompilerServices.DynamicAttribute).Assembly.Location);
         var runtimeBinderReference = MetadataReference.CreateFromFile(typeof(Microsoft.CSharp.RuntimeBinder.CSharpArgumentInfo).Assembly.Location);
@@ -480,10 +480,10 @@
 
         string StartingCode =
             @"using System.Collections.Generic;
-                using System.Linq;
+using System.Linq;
 
-                public class Script
-                {";
+public class Script
+{";
 
         // Add a class around existing code
         FinalCode = StartingCode + FinalCode;
@@ -492,5 +492,10 @@
         FinalCode = FinalCode.Replace("dynamic AnimationLoop(dynamic WorldObject)", "public dynamic AnimationLoop(dynamic WorldObject)");
 
         return FinalCode;
+    }
+
+    public void Dispose()
+    {
+        _engine?.dispose();
     }
 }

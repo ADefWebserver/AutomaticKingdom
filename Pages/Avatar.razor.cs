@@ -7,7 +7,7 @@ using BabylonJS.GUI;
 
 namespace AutomaticKingdom.Pages
 {
-    public partial class AnimationExample : IDisposable
+    public partial class Avatar : IDisposable
     {
         private IDictionary<string, AnimationGroup> _animationMap = new Dictionary<string, AnimationGroup>();
         private AnimationGroup _runningAnimation = null;
@@ -56,16 +56,8 @@ namespace AutomaticKingdom.Pages
                 ),
                 scene
             );
-            var advancedTexture = await AdvancedDynamicTexture.CreateFullscreenUI("UI");
-            var UiPanel = await StackPanel.NewStackPanel("name");
-            await UiPanel.set_width("220px");
-            await UiPanel.set_fontSize("14px");
-            await UiPanel.set_horizontalAlignment(await Control.get_HORIZONTAL_ALIGNMENT_RIGHT());
-            await UiPanel.set_verticalAlignment(await Control.get_VERTICAL_ALIGNMENT_CENTER());
 
-            await advancedTexture.addControl(UiPanel);
-
-            var house = await SceneLoader.ImportMesh(
+            var Player = await SceneLoader.ImportMesh(
                 null,
                 "assets/",
                 "Player.glb",
@@ -76,12 +68,8 @@ namespace AutomaticKingdom.Pages
                     {
                         await animation.stop();
                         _animationMap.Add(await animation.get_name(), animation);
-                        await AddRunAnimationButton(
-                            UiPanel,
-                            await animation.get_name()
-                        );
                     }
-                    if(_animationMap.Count > 0)
+                    if (_animationMap.Count > 0)
                     {
                         _runningAnimation = _animationMap.First().Value;
                         await _runningAnimation.start(true);
@@ -111,27 +99,19 @@ namespace AutomaticKingdom.Pages
             _engine = engine;
         }
 
-        private async ValueTask AddRunAnimationButton(StackPanel uiPanel, string name)
+        public async ValueTask RunAnimation(string name)
         {
-            var button = await Button.CreateSimpleButton($"but_{name}", name);
-            await button.set_paddingTop("10px");
-            await button.set_width("100px");
-            await button.set_height("50px");
-            await button.set_color("white");
-            await button.set_background("green");
-            await (await button.get_onPointerDownObservable()).add(async (_, __) => {
-                if (_runningAnimation != null)
-                {
-                    await _runningAnimation.stop();
-                    _runningAnimation = null;
-                }
-                if(_animationMap.ContainsKey(name))
-                {
-                    await _animationMap[name].play(true);
-                    _runningAnimation = _animationMap[name];
-                }
-            });
-            await uiPanel.addControl(button);
+            if (_runningAnimation != null)
+            {
+                await _runningAnimation.stop();
+                _runningAnimation = null;
+            }
+
+            if (_animationMap.ContainsKey(name))
+            {
+                await _animationMap[name].play(true);
+                _runningAnimation = _animationMap[name];
+            }
         }
     }
 }
