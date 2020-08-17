@@ -2,3 +2,5 @@
 ## Blazor Server Side Application
 
 ![AutomaticKingdomAnimation](https://user-images.githubusercontent.com/1857799/90146279-b5200080-dd35-11ea-829d-5de6011fa949.gif)
+
+Also see: [Introducing Blazor Automatic Kingdom](https://blazorhelpwebsite.com/ViewBlogPost/39 "Introducing Blazor Automatic Kingdom")
