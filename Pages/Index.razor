@@ -13,7 +13,6 @@
 @using Microsoft.CodeAnalysis.CSharp.Scripting;
 @using Microsoft.CodeAnalysis.Scripting;
 @using CSScriptLib;
-@implements IDisposable
 @inject IJSRuntime JSRuntime
 
 <h1>AutomaticKingdom.com</h1>
@@ -107,235 +106,34 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p>Response: @Output</p>
+                    @if (!ExecutingCode)
+                    {
+                        <p>Response: @Output</p>
+                    }
                     <Avatar @ref="Player"></Avatar>
-                </div>
+                    </div>
             </div>
         </div>
     </div>
 }
 
 <!-- TOOLBOX -->
-<xml xmlns="https://developers.google.com/blockly/xml" @ref="@toolbox" style="display: none">
-    <category name="Logic" colour="%{BKY_LOGIC_HUE}">
-        <block type="controls_if"></block>
-        <block type="logic_compare"></block>
-        <block type="logic_operation"></block>
-        <block type="logic_negate"></block>
-        <block type="logic_boolean"></block>
-    </category>
-    <category name="Loops" colour="%{BKY_LOOPS_HUE}">
-        <block type="controls_repeat_ext">
-            <value name="TIMES">
-                <block type="math_number">
-                    <field name="NUM">10</field>
-                </block>
-            </value>
-        </block>
-        <block type="controls_whileUntil"></block>
-    </category>
-    <category name="Math" colour="%{BKY_MATH_HUE}">
-        <block type="math_number">
-            <field name="NUM">123</field>
-        </block>
-        <block type="math_arithmetic"></block>
-        <block type="math_single"></block>
-    </category>
-    <category name="Text" colour="%{BKY_TEXTS_HUE}">
-        <block type="text"></block>
-        <block type="text_length"></block>
-        <block type="text_print"></block>
-    </category>
-    <category name="Lists" colour="#745ba5">
-        <block type="lists_create_with">
-            <mutation items="0"></mutation>
-        </block>
-        <block type="lists_create_with">
-            <mutation items="3"></mutation>
-        </block>
-        <block type="lists_repeat">
-            <value name="NUM">
-                <shadow type="math_number">
-                    <field name="NUM">5</field>
-                </shadow>
-            </value>
-        </block>
-        <block type="lists_length"></block>
-        <block type="lists_isEmpty"></block>
-        <block type="lists_indexOf">
-            <field name="END">FIRST</field>
-            <value name="VALUE">
-                <block type="variables_get">
-                    <field name="VAR" id="/+G`LM-z|L$e7y}Yd2G4">list</field>
-                </block>
-            </value>
-        </block>
-        <block type="lists_getIndex">
-            <mutation statement="false" at="true"></mutation>
-            <field name="MODE">GET</field>
-            <field name="WHERE">FROM_START</field>
-            <value name="VALUE">
-                <block type="variables_get">
-                    <field name="VAR" id="/+G`LM-z|L$e7y}Yd2G4">list</field>
-                </block>
-            </value>
-        </block>
-        <block type="lists_setIndex">
-            <mutation at="true"></mutation>
-            <field name="MODE">SET</field>
-            <field name="WHERE">FROM_START</field>
-            <value name="LIST">
-                <block type="variables_get">
-                    <field name="VAR" id="/+G`LM-z|L$e7y}Yd2G4">list</field>
-                </block>
-            </value>
-        </block>
-        <block type="lists_getSublist">
-            <mutation at1="true" at2="true"></mutation>
-            <field name="WHERE1">FROM_START</field>
-            <field name="WHERE2">FROM_START</field>
-            <value name="LIST">
-                <block type="variables_get">
-                    <field name="VAR" id="/+G`LM-z|L$e7y}Yd2G4">list</field>
-                </block>
-            </value>
-        </block>
-        <block type="lists_split">
-            <mutation mode="SPLIT"></mutation>
-            <field name="MODE">SPLIT</field>
-            <value name="DELIM">
-                <shadow type="text">
-                    <field name="TEXT">,</field>
-                </shadow>
-            </value>
-        </block>
-        <block type="lists_sort">
-            <field name="TYPE">NUMERIC</field>
-            <field name="DIRECTION">1</field>
-        </block>
-    </category>
-    <sep></sep>
-    <category name="Variables" custom="VARIABLE" colour="%{BKY_VARIABLES_HUE}">
-    </category>
-    <category name="Functions" custom="PROCEDURE" colour="%{BKY_PROCEDURES_HUE}">
-    </category>
-    <category name="Animations" colour="%{BKY_TEXTS_HUE}">
-        <block type="automatickingdom_executeanimation">
-            <field name="ExecuteAnimation">Execute Animation</field>
-            <field name="AnimationSelection">TPose</field>
-        </block>
-    </category>
-    <sep></sep>
-</xml>
+<AutomaticKingdom.Controls.DefaultToolbox @ref="@objDefaultToolbox">
+</AutomaticKingdom.Controls.DefaultToolbox>
 
 <!-- STARTING BLOCKS -->
-<xml xmlns="https://developers.google.com/blockly/xml" @ref="@startBlocks" style="display: none">
-    <variables>
-        <variable id="`Qg%mLC,sg)q/F1FFqSq">WorldObject</variable>
-        <variable id="jm_J$=$^MWQpQ}g({.:Q">AnimationLoopResult</variable>
-    </variables>
-    <block type="procedures_defreturn" id="$ZHyQf!/IS@n%h[!^e|W" x="54" y="31">
-        <mutation>
-            <arg name="WorldObject" varid="`Qg%mLC,sg)q/F1FFqSq"></arg>
-        </mutation>
-        <field name="NAME">AnimationLoop</field>
-        <comment pinned="false" h="80" w="160">Describe this function...</comment>
-        <statement name="STACK">
-            <block type="variables_set" id="7EY{$jS;[qS;!hmsNnCw">
-                <field name="VAR" id="jm_J$=$^MWQpQ}g({.:Q">AnimationLoopResult</field>
-                <value name="VALUE">
-                    <block type="text" id="rUpbM?;DMFv,!V/WgMuK">
-                        <field name="TEXT">Idle</field>
-                    </block>
-                </value>
-                <next>
-                    <block type="controls_if" id="LMW8d7_gxK(-z1R!BvD)">
-                        <value name="IF0">
-                            <block type="logic_compare" id="n@LbkILU.taFM4hnW=Q#">
-                                <field name="OP">EQ</field>
-                                <value name="A">
-                                    <block type="variables_get" id="kdN5e=8;2;,xu$;l?FR$">
-                                        <field name="VAR" id="`Qg%mLC,sg)q/F1FFqSq">WorldObject</field>
-                                    </block>
-                                </value>
-                                <value name="B">
-                                    <block type="text" id="L_,[JfTBV?+p9#a7ImLo">
-                                        <field name="TEXT">Attacked</field>
-                                    </block>
-                                </value>
-                            </block>
-                        </value>
-                        <statement name="DO0">
-                            <block type="variables_set" id="bW-Y$I5#|^D#|`_~9_fz">
-                                <field name="VAR" id="jm_J$=$^MWQpQ}g({.:Q">AnimationLoopResult</field>
-                                <value name="VALUE">
-                                    <block type="text" id="~y?-~4H5o^S,aA`[*m?S">
-                                        <field name="TEXT">Attack</field>
-                                    </block>
-                                </value>
-                            </block>
-                        </statement>
-                        <next>
-                            <block type="controls_if" id="{W;lcxtYa]Z:ZI9BG1#s">
-                                <value name="IF0">
-                                    <block type="logic_compare" id="ZRgD~|1Mryg5ixi(y3/u">
-                                        <field name="OP">EQ</field>
-                                        <value name="A">
-                                            <block type="variables_get" id="cvKy4[wvkOWC!z^j7|!m">
-                                                <field name="VAR" id="`Qg%mLC,sg)q/F1FFqSq">WorldObject</field>
-                                            </block>
-                                        </value>
-                                        <value name="B">
-                                            <block type="text" id="2blTEQx9YI{+%rHKb!c6">
-                                                <field name="TEXT">Calm</field>
-                                            </block>
-                                        </value>
-                                    </block>
-                                </value>
-                                <statement name="DO0">
-                                    <block type="variables_set" id="_KKVb#fMo]`)M?3z|+ed">
-                                        <field name="VAR" id="jm_J$=$^MWQpQ}g({.:Q">AnimationLoopResult</field>
-                                        <value name="VALUE">
-                                            <block type="text" id="}@@R`xW[dK*2lKg4bpX6K">
-                                                <field name="TEXT">Walking</field>
-                                            </block>
-                                        </value>
-                                    </block>
-                                </statement>
-                            </block>
-                        </next>
-                    </block>
-                </next>
-            </block>
-        </statement>
-        <value name="RETURN">
-            <block type="variables_get" id="vmLv#jGFh!5%1*Kx@3a2">
-                <field name="VAR" id="jm_J$=$^MWQpQ}g({.:Q">AnimationLoopResult</field>
-            </block>
-        </value>
-    </block>
-</xml>
+<AutomaticKingdom.Controls.DefaultStartingBlocks @ref="@objDefaultStartingBlocks">
+</AutomaticKingdom.Controls.DefaultStartingBlocks>
 
 @code {
     Avatar Player;
+    dynamic CsScript;
     private IDictionary<string, AnimationGroup> _animationMap = new Dictionary<string, AnimationGroup>();
     private AnimationGroup _runningAnimation = null;
-    private Engine _engine;
-
-    internal class CustomPrintBlock : IBlock
-    {
-        public List<string> Text { get; set; } = new List<string>();
-
-        public override object Evaluate(Context context)
-        {
-            Text.Add((this.Values.FirstOrDefault(x => x.Name == "TEXT")?.Evaluate(context) ?? "").ToString());
-            return base.Evaluate(context);
-        }
-    }
 
     private ElementReference blocklyDiv;
-    private ElementReference toolbox;
-    private ElementReference startBlocks;
+    private AutomaticKingdom.Controls.DefaultToolbox objDefaultToolbox;
+    private AutomaticKingdom.Controls.DefaultStartingBlocks objDefaultStartingBlocks;
 
     List<string> WorldObjectOptions = new List<string>() { "Idle", "Attacked", "Calm" };
     string WorldObject = "Idle";
@@ -357,8 +155,8 @@
             await AutomaticKingdomInterop.DemoWorkspace(
                 JSRuntime,
                 blocklyDiv,
-                toolbox,
-                startBlocks
+                objDefaultToolbox.toolbox,
+                objDefaultStartingBlocks.startBlocks
                 );
         }
     }
@@ -409,27 +207,8 @@
 
     private async Task ExecuteCode()
     {
-        ExecutingCode = true;
-        StateHasChanged();
-
-        this.Output = "";
-
         try
         {
-            XMLText = await AutomaticKingdomInterop.GetXML(JSRuntime);
-            var xml = await AutomaticKingdomInterop.GetXML(JSRuntime);
-
-            var parser = new Parser()
-                .AddStandardBlocks()
-                .AddBlock<ExecuteAnimation>("automatickingdom_executeanimation")
-                .Parse(XMLText);
-
-            var syntaxTree = parser.Generate();
-
-            string code = syntaxTree.NormalizeWhitespace().ToFullString();
-
-            dynamic CsScript = CSScript.Evaluator.LoadCode(ConvertScript(code));
-
             var result = CsScript.AnimationLoop(WorldObject);
 
             this.Output = result;
@@ -440,19 +219,33 @@
         {
             this.Output = "ERROR: " + ex.Message;
         }
-
-        ExecutingCode = false;
     }
 
-    private void RunCode()
+    private async Task RunCode()
     {
         ViewXML = false;
         ViewCode = false;
         ViewRunCode = true;
+        ExecutingCode = true;
 
-        ExecutingCode = false;
+        StateHasChanged();
 
         this.Output = "";
+
+        XMLText = await AutomaticKingdomInterop.GetXML(JSRuntime);
+
+        var parser = new Parser()
+            .AddStandardBlocks()
+            .AddBlock<ExecuteAnimation>("automatickingdom_executeanimation")
+            .Parse(XMLText);
+
+        var syntaxTree = parser.Generate();
+
+        string code = syntaxTree.NormalizeWhitespace().ToFullString();
+
+        CsScript = CSScript.Evaluator.LoadCode(ConvertScript(code));
+
+        ExecutingCode = false;
     }
 
     // Utility
@@ -480,10 +273,10 @@
 
         string StartingCode =
             @"using System.Collections.Generic;
-using System.Linq;
+                using System.Linq;
 
-public class Script
-{";
+                public class Script
+                {";
 
         // Add a class around existing code
         FinalCode = StartingCode + FinalCode;
@@ -492,10 +285,5 @@ public class Script
         FinalCode = FinalCode.Replace("dynamic AnimationLoop(dynamic WorldObject)", "public dynamic AnimationLoop(dynamic WorldObject)");
 
         return FinalCode;
-    }
-
-    public void Dispose()
-    {
-        _engine?.dispose();
     }
 }

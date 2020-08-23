@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BabylonJS;
 using BabylonJS.GUI;
+using EventHorizon.Blazor.Server.Interop.Callbacks;
 
 namespace AutomaticKingdom.Pages
 {
@@ -62,7 +63,7 @@ namespace AutomaticKingdom.Pages
                 "assets/",
                 "Player.glb",
                 scene,
-                new EventHorizon.Blazor.Server.Interop.Callbacks.ActionCallback<AbstractMesh[], IParticleSystem[], Skeleton[], AnimationGroup[]>(async (arg1, arg2, arg3, arg4) =>
+                new ActionCallback<AbstractMesh[], IParticleSystem[], Skeleton[], AnimationGroup[]>(async (arg1, arg2, arg3, arg4) =>
                 {
                     foreach (var animation in arg4)
                     {
