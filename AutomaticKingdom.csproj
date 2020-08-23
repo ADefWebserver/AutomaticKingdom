@@ -31,4 +31,8 @@
 	  <ProjectReference Include="EventHorizon.Blazor.BabylonJS.WASM\EventHorizon.Blazor.BabylonJS.WASM.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Classes\" />
+	</ItemGroup>
+
 </Project>

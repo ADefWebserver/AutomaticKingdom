@@ -1,17 +1,13 @@
 ﻿@page "/"
-@using System.Net.Http
 @using System.Threading.Tasks
 @using Microsoft.JSInterop
 @using System.Collections.Generic;
-@using System.Linq;
 @using BabylonJS;
-@using BabylonJS.GUI;
+@using AutomaticKingdom.BabylonControls;
 @using AutomaticKingdom.Classes;
 @using IronBlock
 @using IronBlock.Blocks;
 @using Microsoft.CodeAnalysis;
-@using Microsoft.CodeAnalysis.CSharp.Scripting;
-@using Microsoft.CodeAnalysis.Scripting;
 @using CSScriptLib;
 @inject IJSRuntime JSRuntime
 
@@ -195,7 +191,7 @@
 
             var syntaxTree = parser.Generate();
             string code = syntaxTree.NormalizeWhitespace().ToFullString();
-            var script = GenerateScript(code);
+            var script = GenerateScripts.GenerateScript(code);
 
             CodeText = script.Code;
         }
@@ -243,47 +239,8 @@
 
         string code = syntaxTree.NormalizeWhitespace().ToFullString();
 
-        CsScript = CSScript.Evaluator.LoadCode(ConvertScript(code));
+        CsScript = CSScript.Evaluator.LoadCode(GenerateScripts.ConvertScript(code));
 
         ExecutingCode = false;
-    }
-
-    // Utility
-
-    public static Script<object> GenerateScript(string code)
-    {
-        var dynamicRuntimeReference = MetadataReference.CreateFromFile(typeof(System.Runtime.CompilerServices.DynamicAttribute).Assembly.Location);
-        var runtimeBinderReference = MetadataReference.CreateFromFile(typeof(Microsoft.CSharp.RuntimeBinder.CSharpArgumentInfo).Assembly.Location);
-
-        var scriptOptions =
-        ScriptOptions.Default
-        .WithImports("System", "System.Linq", "System.Math", "System.Collections.Generic")
-        .AddReferences(dynamicRuntimeReference, runtimeBinderReference);
-
-        return CSharpScript.Create<object>
-            (code, scriptOptions);
-    }
-
-    public static string ConvertScript(string code)
-    {
-        string FinalCode = "";
-
-        // Remove existing opening bracket
-        FinalCode = code.Substring(1, (code.Length - 1));
-
-        string StartingCode =
-            @"using System.Collections.Generic;
-                using System.Linq;
-
-                public class Script
-                {";
-
-        // Add a class around existing code
-        FinalCode = StartingCode + FinalCode;
-
-        // Make AnimationLoop Public
-        FinalCode = FinalCode.Replace("dynamic AnimationLoop(dynamic WorldObject)", "public dynamic AnimationLoop(dynamic WorldObject)");
-
-        return FinalCode;
-    }
+    }    
 }

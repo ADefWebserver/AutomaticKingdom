@@ -6,7 +6,7 @@ using BabylonJS;
 using BabylonJS.GUI;
 using EventHorizon.Blazor.Server.Interop.Callbacks;
 
-namespace AutomaticKingdom.Pages
+namespace AutomaticKingdom.BabylonControls
 {
     public partial class Avatar : IDisposable
     {
