@@ -1,0 +1,89 @@
+﻿<xml xmlns="https://developers.google.com/blockly/xml" @ref="@startBlocks" style="display: none">
+    <variables>
+        <variable id="`Qg%mLC,sg)q/F1FFqSq">WorldObject</variable>
+        <variable id="jm_J$=$^MWQpQ}g({.:Q">AnimationLoopResult</variable>
+    </variables>
+    <block type="procedures_defreturn" id="$ZHyQf!/IS@n%h[!^e|W" x="54" y="31">
+        <mutation>
+            <arg name="WorldObject" varid="`Qg%mLC,sg)q/F1FFqSq"></arg>
+        </mutation>
+        <field name="NAME">AnimationLoop</field>
+        <comment pinned="false" h="80" w="160">Describe this function...</comment>
+        <statement name="STACK">
+            <block type="variables_set" id="7EY{$jS;[qS;!hmsNnCw">
+                <field name="VAR" id="jm_J$=$^MWQpQ}g({.:Q">AnimationLoopResult</field>
+                <value name="VALUE">
+                    <block type="text" id="rUpbM?;DMFv,!V/WgMuK">
+                        <field name="TEXT">swimming</field>
+                    </block>
+                </value>
+                <next>
+                    <block type="controls_if" id="LMW8d7_gxK(-z1R!BvD)">
+                        <value name="IF0">
+                            <block type="logic_compare" id="n@LbkILU.taFM4hnW=Q#">
+                                <field name="OP">EQ</field>
+                                <value name="A">
+                                    <block type="variables_get" id="kdN5e=8;2;,xu$;l?FR$">
+                                        <field name="VAR" id="`Qg%mLC,sg)q/F1FFqSq">WorldObject</field>
+                                    </block>
+                                </value>
+                                <value name="B">
+                                    <block type="text" id="L_,[JfTBV?+p9#a7ImLo">
+                                        <field name="TEXT">Attacked</field>
+                                    </block>
+                                </value>
+                            </block>
+                        </value>
+                        <statement name="DO0">
+                            <block type="variables_set" id="bW-Y$I5#|^D#|`_~9_fz">
+                                <field name="VAR" id="jm_J$=$^MWQpQ}g({.:Q">AnimationLoopResult</field>
+                                <value name="VALUE">
+                                    <block type="text" id="~y?-~4H5o^S,aA`[*m?S">
+                                        <field name="TEXT">bite</field>
+                                    </block>
+                                </value>
+                            </block>
+                        </statement>
+                        <next>
+                            <block type="controls_if" id="{W;lcxtYa]Z:ZI9BG1#s">
+                                <value name="IF0">
+                                    <block type="logic_compare" id="ZRgD~|1Mryg5ixi(y3/u">
+                                        <field name="OP">EQ</field>
+                                        <value name="A">
+                                            <block type="variables_get" id="cvKy4[wvkOWC!z^j7|!m">
+                                                <field name="VAR" id="`Qg%mLC,sg)q/F1FFqSq">WorldObject</field>
+                                            </block>
+                                        </value>
+                                        <value name="B">
+                                            <block type="text" id="2blTEQx9YI{+%rHKb!c6">
+                                                <field name="TEXT">Calm</field>
+                                            </block>
+                                        </value>
+                                    </block>
+                                </value>
+                                <statement name="DO0">
+                                    <block type="variables_set" id="_KKVb#fMo]`)M?3z|+ed">
+                                        <field name="VAR" id="jm_J$=$^MWQpQ}g({.:Q">AnimationLoopResult</field>
+                                        <value name="VALUE">
+                                            <block type="text" id="}@@R`xW[dK*2lKg4bpX6K">
+                                                <field name="TEXT">swimming</field>
+                                            </block>
+                                        </value>
+                                    </block>
+                                </statement>
+                            </block>
+                        </next>
+                    </block>
+                </next>
+            </block>
+        </statement>
+        <value name="RETURN">
+            <block type="variables_get" id="vmLv#jGFh!5%1*Kx@3a2">
+                <field name="VAR" id="jm_J$=$^MWQpQ}g({.:Q">AnimationLoopResult</field>
+            </block>
+        </value>
+    </block>
+</xml>
+@code {
+    public ElementReference startBlocks;
+}

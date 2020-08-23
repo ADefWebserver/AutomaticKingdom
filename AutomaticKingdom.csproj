@@ -17,8 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\assets\Animation.gltf" />
-    <None Include="wwwroot\assets\House.gltf" />
     <None Include="wwwroot\assets\Player.glb" />
   </ItemGroup>
 

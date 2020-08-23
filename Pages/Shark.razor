@@ -1,5 +1,187 @@
 ﻿@page "/shark"
+@using System.Threading.Tasks
+@using Microsoft.JSInterop
+@using System.Collections.Generic;
+@using BabylonJS;
+@using AutomaticKingdom.BabylonControls;
+@using AutomaticKingdom.Classes;
+@using IronBlock
+@using IronBlock.Blocks;
+@using Microsoft.CodeAnalysis;
+@using CSScriptLib;
+@inject IJSRuntime JSRuntime
+
+<h1>AutomaticKingdom.com</h1>
+
+<button class="btn btn-primary" @onclick="RunCode" disabled="@ViewRunCode">
+    Run Code
+</button>
+<div style="width: 100%">
+    <div @ref="@blocklyDiv" style="display: inline-block; height: 480px; width: 100%"></div>
+</div>
+
+@if (ViewRunCode)
+{
+    <div class="modal" tabindex="-1" style="display:block;background-color:gainsboro" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    @if (!ExecutingCode)
+                    {
+                        <div>
+                            <select class="form-control"
+                                    @bind="@WorldObject">
+                                @foreach (var option in WorldObjectOptions)
+                                {
+                                    <option value="@option">
+                                        @option
+                                    </option>
+                                }
+                            </select>
+                        </div><br />
+                        <button style="border-left:2px none" class="btn btn-primary" @onclick="ExecuteCode">
+                            Execute Code
+                        </button>
+                    }
+                    else
+                    {
+                        <img src="media/waiting.gif" width="200" height="50" />
+                    }
+                    <!-- Button to close the popup -->
+                    <button type="button" class="close"
+                            @onclick="ClosePopup">
+                        <span aria-hidden="true">X</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @if (!ExecutingCode)
+                    {
+                        <p>Response: @Output</p>
+                    }
+                    <SharkControl @ref="@SharkRef"></SharkControl>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<!-- TOOLBOX -->
+<AutomaticKingdom.Controls.DefaultToolbox @ref="@objDefaultToolbox">
+</AutomaticKingdom.Controls.DefaultToolbox>
+
+<!-- STARTING BLOCKS -->
+<AutomaticKingdom.Controls.SharkStartingBlocks @ref="@objDefaultStartingBlocks">
+</AutomaticKingdom.Controls.SharkStartingBlocks>
 
 @code {
+    SharkControl SharkRef;
+    dynamic CsScript;
+    private IDictionary<string, AnimationGroup> _animationMap = new Dictionary<string, AnimationGroup>();
+    private AnimationGroup _runningAnimation = null;
 
+    private ElementReference blocklyDiv;
+    private AutomaticKingdom.Controls.DefaultToolbox objDefaultToolbox;
+    private AutomaticKingdom.Controls.SharkStartingBlocks objDefaultStartingBlocks;
+
+    List<string> WorldObjectOptions = new List<string>() { "Idle", "Attacked", "Calm" };
+    string WorldObject = "Attacked";
+
+    bool ViewRunCode = false;
+
+    bool ExecutingCode = false;
+
+    string XMLText = "";
+    string CodeText = "";
+    string Output = "";
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await AutomaticKingdomInterop.DemoWorkspace(
+                JSRuntime,
+                blocklyDiv,
+                objDefaultToolbox.toolbox,
+                objDefaultStartingBlocks.startBlocks
+                );
+        }
+    }
+
+    void ClosePopup()
+    {
+        // Close Popup
+        ViewRunCode = false;
+    }
+
+    private async Task GetXML()
+    {
+        XMLText = await AutomaticKingdomInterop.GetXML(JSRuntime);
+    }
+
+    private async Task GetCode()
+    {
+        ViewRunCode = false;
+        CodeText = "";
+
+        try
+        {
+            XMLText = await AutomaticKingdomInterop.GetXML(JSRuntime);
+
+            var parser = new Parser()
+                .AddStandardBlocks()
+                .AddBlock<ExecuteAnimation>("automatickingdom_executeanimation")
+                .Parse(XMLText);
+
+            var syntaxTree = parser.Generate();
+            string code = syntaxTree.NormalizeWhitespace().ToFullString();
+            var script = GenerateScripts.GenerateScript(code);
+
+            CodeText = script.Code;
+        }
+        catch (Exception ex)
+        {
+            CodeText = "ERROR: " + ex.Message;
+        }
+    }
+
+    private async Task ExecuteCode()
+    {
+        try
+        {
+            var result = CsScript.AnimationLoop(WorldObject);
+
+            this.Output = result;
+
+            await SharkRef.RunAnimation(result);
+        }
+        catch (Exception ex)
+        {
+            this.Output = "ERROR: " + ex.Message;
+        }
+    }
+
+    private async Task RunCode()
+    {
+        ViewRunCode = true;
+        ExecutingCode = true;
+
+        StateHasChanged();
+
+        this.Output = "";
+
+        XMLText = await AutomaticKingdomInterop.GetXML(JSRuntime);
+
+        var parser = new Parser()
+            .AddStandardBlocks()
+            .AddBlock<ExecuteAnimation>("automatickingdom_executeanimation")
+            .Parse(XMLText);
+
+        var syntaxTree = parser.Generate();
+
+        string code = syntaxTree.NormalizeWhitespace().ToFullString();
+
+        CsScript = CSScript.Evaluator.LoadCode(GenerateScripts.ConvertScript(code));
+
+        ExecutingCode = false;
+    }
 }
