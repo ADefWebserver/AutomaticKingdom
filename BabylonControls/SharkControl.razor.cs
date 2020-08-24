@@ -28,7 +28,7 @@ namespace AutomaticKingdom.BabylonControls
         }
 
         public async ValueTask CreateScene()
-        {
+        {            
             var canvas = await Canvas.GetElementById(
                 "game-window"
             );
@@ -36,6 +36,7 @@ namespace AutomaticKingdom.BabylonControls
                 canvas,
                 true
             );
+
             var scene = await Scene.NewScene(
                 engine
             );
@@ -70,6 +71,7 @@ namespace AutomaticKingdom.BabylonControls
                         await animation.stop();
                         _animationMap.Add(await animation.get_name(), animation);
                     }
+
                     if (_animationMap.Count > 0)
                     {
                         _runningAnimation = _animationMap.First().Value;
@@ -77,24 +79,30 @@ namespace AutomaticKingdom.BabylonControls
                     }
                 })
             );
+
             var camera = await ArcRotateCamera.NewArcRotateCamera(
                 "ArcRotateCamera",
                 (decimal)(System.Math.PI / 2),
                 (decimal)(System.Math.PI / 4),
-                30,
-                await Vector3.NewVector3(0, 0, -1),
+                0,
+                await Vector3.NewVector3(0, 1, 0),
                 scene
             );
+
+            // This positions the camera
+            await camera.setPosition(await Vector3.NewVector3(30, 10, -30));
 
             await camera.set_lowerRadiusLimit(2);
             await camera.set_upperRadiusLimit(100);
             await camera.set_wheelDeltaPercentage(0.01m);
 
             await scene.set_activeCamera(camera);
+
             await camera.attachControl(
                 canvas,
                 false
             );
+
             await engine.runRenderLoop(() => Task.Run(() => scene.render(true, false)));
 
             _engine = engine;
