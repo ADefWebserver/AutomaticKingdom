@@ -6,12 +6,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Classes\**" />
+    <Compile Remove="EventHorizon.Blazor.BabylonJS.Server\**" />
     <Compile Remove="EventHorizon.Blazor.BabylonJS.WASM\**" />
     <Compile Remove="EventHorizon.Blazor.BabylonJS\**" />
+    <Content Remove="Classes\**" />
+    <Content Remove="EventHorizon.Blazor.BabylonJS.Server\**" />
     <Content Remove="EventHorizon.Blazor.BabylonJS.WASM\**" />
     <Content Remove="EventHorizon.Blazor.BabylonJS\**" />
+    <EmbeddedResource Remove="Classes\**" />
+    <EmbeddedResource Remove="EventHorizon.Blazor.BabylonJS.Server\**" />
     <EmbeddedResource Remove="EventHorizon.Blazor.BabylonJS.WASM\**" />
     <EmbeddedResource Remove="EventHorizon.Blazor.BabylonJS\**" />
+    <None Remove="Classes\**" />
+    <None Remove="EventHorizon.Blazor.BabylonJS.Server\**" />
     <None Remove="EventHorizon.Blazor.BabylonJS.WASM\**" />
     <None Remove="EventHorizon.Blazor.BabylonJS\**" />
   </ItemGroup>
@@ -21,16 +29,12 @@
   </ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="CS-Script.Core" Version="1.4.0" />
-	  <PackageReference Include="IronBlock" Version="1.0.9" />
+	  <PackageReference Include="CS-Script.Core" Version="2.0.0" />
+	  <PackageReference Include="IronBlock" Version="1.0.15" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="EventHorizon.Blazor.BabylonJS.WASM\EventHorizon.Blazor.BabylonJS.WASM.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Classes\" />
+	  <ProjectReference Include="EventHorizon.Blazor.BabylonJS.Server\EventHorizon.Blazor.BabylonJS.Server.csproj" />
 	</ItemGroup>
 
 </Project>

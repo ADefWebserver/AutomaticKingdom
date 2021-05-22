@@ -2,7 +2,7 @@
 @using System.Threading.Tasks
 @using Microsoft.JSInterop
 @using System.Collections.Generic;
-@using BabylonJS;
+@using BABYLON;
 @using AutomaticKingdom.BabylonControls;
 @using AutomaticKingdom.Classes;
 @using IronBlock
@@ -107,7 +107,7 @@
                         <p>Response: @Output</p>
                     }
                     <Avatar @ref="Player"></Avatar>
-                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -242,5 +242,5 @@
         CsScript = CSScript.Evaluator.LoadCode(GenerateScripts.ConvertScript(code));
 
         ExecutingCode = false;
-    }    
+    }
 }

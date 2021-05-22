@@ -1,16 +1,15 @@
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-using BabylonJS;
-using EventHorizon.Blazor.Server.Interop;
-
-namespace AutomaticKingdom
+namespace EventHorizon.Blazor.Server.BabylonJS.Model
 {
+    using System.Text.Json.Serialization;
+    using System.Threading.Tasks;
+    using EventHorizon.Blazor.Server.Interop;
+
     [JsonConverter(typeof(CachedEntityConverter<Canvas>))]
     public class Canvas : HTMLCanvasElementCachedEntity
     {
-        public static ValueTask<Canvas> GetElementById(
+        public static async ValueTask<Canvas> GetElementById(
             string elementId
-        ) => EventHorizonBlazorInterop.FuncClass(
+        ) => await EventHorizonBlazorInterop.FuncClass(
             entity => new Canvas(entity),
             new string[] { "document", "getElementById" },
             elementId

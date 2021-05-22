@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BabylonJS;
-using BabylonJS.GUI;
+using BABYLON;
+using EventHorizon.Blazor.BabylonJS.Model;
+using EventHorizon.Blazor.Interop;
+using EventHorizon.Blazor.Server.BabylonJS.Model;
 using EventHorizon.Blazor.Server.Interop.Callbacks;
 
 namespace AutomaticKingdom.BabylonControls
@@ -64,7 +66,7 @@ namespace AutomaticKingdom.BabylonControls
                 "assets/",
                 "Shark.glb",
                 scene,
-                new ActionCallback<AbstractMesh[], IParticleSystem[], Skeleton[], AnimationGroup[]>(async (arg1, arg2, arg3, arg4) =>
+                new ActionCallback<AbstractMesh[], IParticleSystem[], Skeleton[], AnimationGroup[], TransformNode[], Geometry[], Light[]>(async (arg1, arg2, arg3, arg4, arg5, arg6, arg7) =>
                 {
                     foreach (var animation in arg4)
                     {
@@ -98,12 +100,13 @@ namespace AutomaticKingdom.BabylonControls
 
             await scene.set_activeCamera(camera);
 
-            await camera.attachControl(
-                canvas,
+            await camera.attachControl(                
                 false
             );
 
-            await engine.runRenderLoop(() => Task.Run(() => scene.render(true, false)));
+            await engine.runRenderLoop(new ActionCallback(
+                            () => Task.Run(() => scene.render(true, false))
+                        ));
 
             _engine = engine;
         }

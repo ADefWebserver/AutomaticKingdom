@@ -2,8 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BabylonJS;
-using BabylonJS.GUI;
+using System.Runtime.InteropServices;
+using BABYLON;
+using EventHorizon.Blazor.BabylonJS.Model;
+using EventHorizon.Blazor.Interop;
+using EventHorizon.Blazor.Server.BabylonJS.Model;
 using EventHorizon.Blazor.Server.Interop.Callbacks;
 
 namespace AutomaticKingdom.BabylonControls
@@ -63,8 +66,8 @@ namespace AutomaticKingdom.BabylonControls
                 "assets/",
                 "Player.glb",
                 scene,
-                new ActionCallback<AbstractMesh[], IParticleSystem[], Skeleton[], AnimationGroup[]>(async (arg1, arg2, arg3, arg4) =>
-                {
+               new ActionCallback<AbstractMesh[], IParticleSystem[], Skeleton[], AnimationGroup[], TransformNode[], Geometry[], Light[]>(async (arg1, arg2, arg3, arg4, arg5, arg6, arg7) =>
+               {
                     foreach (var animation in arg4)
                     {
                         await animation.stop();
@@ -76,7 +79,8 @@ namespace AutomaticKingdom.BabylonControls
                         await _runningAnimation.start(true);
                     }
                 })
-            );
+            );            
+
             var camera = await ArcRotateCamera.NewArcRotateCamera(
                 "ArcRotateCamera",
                 (decimal)(System.Math.PI / 2),
@@ -91,11 +95,16 @@ namespace AutomaticKingdom.BabylonControls
             await camera.set_wheelDeltaPercentage(0.01m);
 
             await scene.set_activeCamera(camera);
+
+            await scene.set_activeCamera(camera);
+
             await camera.attachControl(
-                canvas,
                 false
             );
-            await engine.runRenderLoop(() => Task.Run(() => scene.render(true, false)));
+
+            await engine.runRenderLoop(new ActionCallback(
+                            () => Task.Run(() => scene.render(true, false))
+                        ));
 
             _engine = engine;
         }
